@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Раздатка №6 — Scumble: свой редактор ИИ-правок и регистрация на Replicate | ИИ в дизайне</title>
+<style>
+:root{--ink:#1a2330;--muted:#5b6673;--line:#dfe4ea;--bg:#f7f8fa;--card:#fff;--accent:#5b2c8a;--accent2:#0f7b6c;--warn:#b8860b;--warnbg:#fff8e6;--free:#0f7b6c;--freebg:#e6f5f2;--new:#b03030;--pay:#8a6100}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;color:var(--ink);background:var(--bg);line-height:1.6;-webkit-font-smoothing:antialiased}
+header{background:var(--accent);color:#fff;padding:32px 24px}
+header .wrap{max-width:1080px;margin:0 auto}
+header .badge{display:inline-block;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.3);padding:4px 12px;border-radius:20px;font-size:13px;font-weight:600}
+header h1{font-size:29px;line-height:1.25;margin:14px 0 10px;font-weight:700}
+header p{font-size:16px;opacity:.92;max-width:780px}
+header .meta{font-size:14px;opacity:.8;margin-top:14px}
+.wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+main{padding:32px 0 56px}
+section{margin-bottom:44px}
+h2{font-size:22px;margin-bottom:8px;font-weight:700}
+h2 + .lead{color:var(--muted);font-size:15px;margin-bottom:18px}
+h3{font-size:17px;margin:24px 0 10px;font-weight:650}
+h4{font-size:15.5px;margin:0 0 6px;color:var(--accent)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:20px 22px;margin-bottom:16px}
+.alert{border-left:4px solid var(--warn);background:var(--warnbg);border-radius:0 8px 8px 0}
+.alert strong{color:#8a6100}
+.good{border-left:4px solid var(--accent2);background:var(--freebg);border-radius:0 8px 8px 0}
+.good strong{color:#0b5f53}
+.free-badge{display:inline-block;background:var(--freebg);color:var(--free);font-size:11.5px;font-weight:700;padding:3px 9px;border-radius:4px;border:1px solid #bfe3dc;white-space:nowrap}
+.pay-badge{display:inline-block;background:#fdf3dd;color:var(--pay);font-size:11.5px;font-weight:700;padding:3px 9px;border-radius:4px;border:1px solid #ecdcae;white-space:nowrap}
+.new-badge{display:inline-block;background:#fdecec;color:var(--new);font-size:11.5px;font-weight:700;padding:3px 9px;border-radius:4px;border:1px solid #f3c9c9;white-space:nowrap}
+table{width:100%;border-collapse:collapse;background:var(--card);border:1px solid var(--line);border-radius:10px;overflow:hidden;font-size:14.5px}
+th{background:#eef1f5;text-align:left;padding:12px 14px;font-weight:650;font-size:13px;color:#3d4753;border-bottom:2px solid var(--line)}
+td{padding:12px 14px;border-bottom:1px solid #eceff2;vertical-align:top}
+tr:last-child td{border-bottom:none}
+tr.pick{background:#f4faf8}
+.mname{font-weight:650}
+.mid{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;color:var(--muted);word-break:break-all;margin-top:2px}
+.price{font-variant-numeric:tabular-nums;font-weight:600;white-space:nowrap}
+.tblwrap{overflow-x:auto;border-radius:10px;border:1px solid var(--line);background:var(--card);border-collapse:separate}
+.tblwrap table{border:none}
+ul,ol{margin:10px 0 10px 22px}
+li{margin-bottom:7px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin:16px 0}
+.mini{background:var(--card);border:1px solid var(--line);border-radius:9px;padding:16px 18px}
+.mini p{font-size:14px;color:var(--muted)}
+.prompt{background:#f4f6f8;border:1px solid #e2e6eb;border-left:3px solid var(--accent);border-radius:0 7px 7px 0;padding:13px 16px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13.5px;color:#2b3442;margin:12px 0;white-space:pre-wrap;line-height:1.55}
+.prompt-lbl{font-size:13px;font-weight:650;color:var(--accent);margin:16px 0 4px}
+a{color:var(--accent)}
+.check li{list-style:none;position:relative;padding-left:28px;margin-bottom:9px}
+.check li:before{content:"\25A1";position:absolute;left:0;top:-1px;font-size:17px;color:var(--accent2);font-weight:700}
+.steps{counter-reset:s;list-style:none;margin:16px 0;padding:0}
+.steps li{counter-increment:s;position:relative;padding-left:44px;margin-bottom:14px}
+.steps li:before{content:counter(s);position:absolute;left:0;top:0;width:30px;height:30px;border-radius:50%;background:var(--accent);color:#fff;font-size:15px;font-weight:700;display:flex;align-items:center;justify-content:center}
+footer{background:#1f2732;color:#9aa5b1;padding:26px 24px;font-size:13.5px}
+footer .wrap{max-width:1080px;margin:0 auto}
+footer a{color:#c9a6e8}
+@media(max-width:640px){header h1{font-size:23px}main{padding:24px 0 40px}th,td{padding:10px 11px;font-size:13.5px}.steps li{padding-left:38px}}
+</style>
+</head>
+<body>
+<header><div class="wrap">
+<span class="badge">Раздаточный материал №6</span>
+<h1>Scumble: свой редактор ИИ-правок и регистрация на Replicate</h1>
+<p>Бесплатный редактор, где каждая правка ИИ ложится отдельным слоем и выгружается в PSD. Пошаговая регистрация на Replicate, оплата, ключ и первый готовый результат.</p>
+<div class="meta">Занятие 3 · 26 октября 2026 · версия Scumble 0.1.51 от 24 октября 2026 · цены и условия Replicate проверены 26 октября 2026</div>
+</div></header>
+<main><div class="wrap">
+
+<section>
+<h2>Главная мысль</h2>
+<p class="lead">Scumble — это не сервис, а бесплатная программа на вашем компьютере. Она ничего не генерирует сама: вы выделяете фрагмент, пишете, что там должно быть, а программа отправляет выделенное в Replicate (или другой сервис, ключ от которого у вас есть) и кладёт ответ <strong>отдельным слоем поверх картинки</strong>. Исходник под ним не тронут, и в любой момент правку можно откатить или перегенерировать.</p>
+</section>
+
+<section>
+<h2>1. Что это даёт дизайнеру</h2>
+<div class="grid">
+<div class="mini"><h4>Слой вместо «перерисованной картинки»</h4><p>Ответ модели приходит слоем. Не понравилось — удалили слой, под ним исходник. Понравилось — подвинули, замаскировали, изменили прозрачность.</p></div>
+<div class="mini"><h4>Кнопка Match</h4><p>Слайдер в строке слоя подгоняет цвет вставки к окружению. Именно она убирает эффект «наклейки», из-за которого обычно и бракуют ИИ-правки.</p></div>
+<div class="mini"><h4>Экспорт в PSD</h4><p>Выгружается PSD со слоями, масками и выделениями — файл открывается в Photoshop и в Krita. Это то, чего не даёт ни один браузерный сервис.</p></div>
+<div class="mini"><h4>Маска, outpaint и upscale — в одном окне</h4><p>Вместо трёх разных сервисов — один редактор. Правка, расширение кадра и увеличение разрешения делаются в одном документе, без переноса файлов туда-сюда.</p></div>
+</div>
+
+<div class="card good">
+<strong>Стоимость.</strong> Сама программа бесплатна и открытая (лицензия GPL-3.0), аккаунт в ней не нужен. Платите вы только за генерацию — то есть за Replicate. Это принципиально дешевле подписки на редактор.
+</div>
+
+<div class="card alert">
+<strong>Для Ирины это не «ещё один сервис», а замена трёх.</strong> Раньше правка по маске, расширение кадра и увеличение разрешения требовали трёх разных инструментов с тремя разными тарифами. Здесь это три операции в одном редакторе, и одна оплата вместо трёх.
+</div>
+</section>
+
+<section>
+<h2>2. Установка</h2>
+<div class="tblwrap"><table>
+<thead><tr><th>Система</th><th>Как поставить</th><th>Нюанс</th></tr></thead>
+<tbody>
+<tr class="pick"><td><strong>Windows 10/11</strong></td><td>Microsoft Store — найти «Scumble» или <code>winget install scumble</code>. Либо установщик <code>Scumble-Setup-0.1.51.exe</code> со страницы релизов</td><td>Версия из Store подписана Microsoft — ставится без предупреждений. Установщик с GitHub не подписан: появится окно «Windows защитил ваш компьютер» → «Подробнее» → «Выполнить в любом случае». Это штатное поведение для любой неподписанной программы</td></tr>
+<tr><td>Windows, без установки</td><td>Архив <code>Scumble-0.1.51-portable-win-x64.zip</code> → распаковать в обычную папку (не в Program Files и не в синхронизируемую OneDrive) → запустить Scumble.exe</td><td>Все настройки, ключи и файлы хранятся в папке data рядом с программой. Обновляется сама, но может спросить</td></tr>
+<tr><td>Linux</td><td>AppImage или .deb из тех же релизов</td><td>Сборки сделаны автоматически, автор их лично не проверял — если что-то сломается, пишите автору</td></tr>
+<tr><td>macOS</td><td>Пока нет</td><td>Запланировано, работа не начата. На Mac ждать не стоит</td></tr>
+</tbody></table></div>
+
+<p class="prompt-lbl">Скачать:</p>
+<div class="prompt">https://github.com/DenRakEiw/scumble/releases/latest
+Microsoft Store: https://apps.microsoft.com/detail/9NDBTNNMXF2R</div>
+
+<div class="card">
+<strong>Что нужно на компьютере.</strong> Windows 10 или 11, 64 бита. Видеокарта не обязательна: фильтры идут через GPU, а если её нет — через процессор. Сама программа занимает около 410 МБ, установщик — около 128 МБ.
+</div>
+</section>
+
+<section>
+<h2>3. Регистрация на Replicate — шаг за шагом</h2>
+<p class="lead">Это обязательный шаг: без ключа в Replicate программа не сможет ничего генерировать. Регистрация бесплатна, ключ выдаётся сразу.</p>
+
+<ol class="steps">
+<li>Открыть <strong>replicate.com</strong> и создать аккаунт. Вход идёт через GitHub; используйте тот же GitHub, который уже есть, чтобы не плодить аккаунты.</li>
+<li>Сразу открыть <strong>replicate.com/account/api-tokens</strong>. При регистрации Replicate создаёт токен по умолчанию — он уже есть в списке.</li>
+<li>Создать <strong>свой токен</strong> с понятным названием (например, «Scumble»). Токен — это строка из 40 символов, начинается с <code>r8_</code>. Показывается один раз — сразу сохранить.</li>
+<li>Перейти в <strong>Account → Billing</strong> и добавить способ оплаты.</li>
+<li>Купить кредит: <strong>Add credit</strong> → указать сумму. Деньги списываются сразу, кредит зачисляется на баланс.</li>
+<li>Проверить, что всё работает: открыть любую модель, вставить промпт, нажать Run и посмотреть, что в счётчике токенов уменьшилось число.</li>
+</ol>
+
+<div class="card good">
+<strong>Токен — это пароль.</strong> Он даёт тратить ваши деньги. Не вставляйте его в переписку, не отправляйте в Telegram-чат, не публикуйте. Если токен утёк — на той же странице токенов нажмите «disable» и создайте новый.
+</div>
+
+<h3>Сначала попробуйте бесплатно</h3>
+<p class="lead">Прежде чем заводить карту и покупать кредит, зарегистрируйтесь и прогоните бесплатные модели — они есть в отдельной коллекции.</p>
+<div class="tblwrap"><table>
+<thead><tr><th>Коллекция</th><th>Адрес</th><th>Что внутри</th></tr></thead>
+<tbody>
+<tr class="pick"><td><strong>Try for Free</strong></td><td>replicate.com/collections/try-for-free</td><td>Часть моделей запускается бесплатно. В коллекции есть google/imagen-4, black-forest-labs/flux-kontext-pro (сильная работа с правкой по описанию), ideogram-ai/ideogram-v3-turbo (текст на картинке), black-forest-labs/flux-1.1-pro, flux-dev, topazlabs/image-upscale, szcho/codeformer и tencentarc/gfpgan (реставрация лиц), а также minimax/video-01 и luma/reframe-video в разделе видео</td></tr>
+</tbody></table></div>
+
+<div class="card">
+<strong>Как это использовать.</strong> Зарегистрируйтесь, откройте любую модель из коллекции, вставьте промпт, нажмите Run. Бесплатный лимит ограничен, и через какое-то время сервис попросит подключить оплату. Но этого хватит, чтобы убедиться, что аккаунт рабочий, токен выпущен и ключ подхватывается Scumble, — не потратив ни рубля.
+</div>
+
+<h3>Как оплатить</h3>
+<div class="tblwrap"><table>
+<thead><tr><th>Параметр</th><th>Значение</th></tr></thead>
+<tbody>
+<tr><td>Модель оплаты</td><td>Предоплата: вы кладёте деньги на баланс, траты идут с него. Не помесячная подписка</td></tr>
+<tr><td>Срок жизни кредита</td><td>1 год с даты покупки, возврату не подлежит</td></tr>
+<tr><td>Автопополнение</td><td>Порог от $5, сумма пополнения от $15. Включается в Billing</td></tr>
+<tr><td>Что при нуле баланса</td><td>Новые запуски не стартуют, текущая инфраструктура выключается</td></tr>
+<tr><td>Пополнение</td><td>Billing → Add credit. Списывается сразу</td></tr>
+</tbody></table></div>
+
+<div class="card alert">
+<strong>С российской карты напрямую не пройдёт.</strong> Нужна зарубежная карта. Если у вас уже есть Mirocard или aifory pro — подойдут, но есть нюанс: обе привязаны к платёжному шлюзу Stripe, и если карта не прошла на одном сервисе, она скорее всего не пройдёт и на Replicate. <strong>Проверяйте карту на маленькой сумме</strong> — например, $5, — прежде чем пополнять всю сумму.
+</div>
+
+<h3>Если карта не проходит — три запасных пути</h3>
+<div class="tblwrap"><table>
+<thead><tr><th>Путь</th><th>Что делать</th></tr></thead>
+<tbody>
+<tr class="pick"><td>Другая виртуальная карта</td><td>Второй эмитент (например, aifory pro, если Mirocard не сработал). Выпустить заранее — это занимает время, поэтому не в день занятия</td></tr>
+<tr><td>Оплата в рублях через syntx.ai</td><td>У вас уже есть токены. Синтезировать через syntx.ai можно, но это не Replicate — ключ оттуда в Scumble не подходит. Это отдельный путь для тех задач, где Replicate не нужен</td></tr>
+<tr><td>Другой провайдер в самом Scumble</td><td>Программа умеет работать не только с Replicate: Nano Banana, GPT Image, FLUX.2, FLUX 3, Seedream, Qwen и агрегаторы fal.ai, OpenRouter, WaveSpeedAI, Comfy Cloud, Comfy Router, Oxen.ai. Каждому — свой ключ в той же строке настроек</td></tr>
+</tbody></table></div>
+</section>
+
+<section>
+<h2>4. Ключ в Scumble</h2>
+<ol class="steps">
+<li>Запустить Scumble. На первом запуске откроется пустая вкладка — настраивать ничего не нужно.</li>
+<li>Нажать <strong>Ctrl + ,</strong> — откроются настройки.</li>
+<li>Раздел <strong>API providers</strong> — в строку <strong>Replicate</strong> вставить токен.</li>
+<li>Нажать <strong>Save</strong>. Перезапускать программу не нужно.</li>
+<li>В строке появится отметка, что ключ сохранён. Модели Replicate появятся в списке рецептов в верхней панели.</li>
+</ol>
+
+<div class="card good">
+<strong>Ключ не лежит в файле настроек.</strong> Scumble хранит его в системном хранилище учётных данных Windows (шифрование DPAPI, привязано к вашей учётной записи). Переносить на другой компьютер такой ключ нельзя — на новой машине его придётся ввести заново.
+</div>
+
+<div class="card">
+<strong>Рецепт — это модель плюс место, где она считается.</strong> В списке вы увидите и локальные рецепты (для ComfyUI), и облачные (Replicate, Comfy Cloud). Рецепты без ключа показаны серым, а не спрятаны — видно, что станет доступно. Это проверка того, что ключ сохранён: строка должна стать активной.
+</div>
+</section>
+
+<section>
+<h2>5. Первая правка: цикл из четырёх шагов</h2>
+<ol class="steps">
+<li><strong>Открыть.</strong> Ctrl+O, перетащить файл в окно или вставить из буфера. Поддерживаются PNG, JPEG, WebP, TIFF, а также PSD и ORA со слоями.</li>
+<li><strong>Выделить.</strong> Кисть выделения (размер — квадратными скобками, Alt — вычитать лишнее). Либо навести на объект и кликнуть — программа сама подсветит его контур (модель SAM2 работает внутри программы, на вашем компьютере, ничего не отправляя).</li>
+<li><strong>Написать.</strong> В поле Generate справа — что именно должно оказаться в выделенном месте. Не «заменить сумку на красную», а «красная кожаная сумка».</li>
+<li><strong>Сгенерировать.</strong> Ctrl+Enter. Ответ придёт слоем поверх выделения за 10–30 секунд. Подвиньте ползунок <strong>Match</strong> в строке слоя, чтобы вставка слилась с окружением.</li>
+</ol>
+
+<p class="prompt-lbl">Формулировка для правки:</p>
+<div class="prompt">Красная кожаная сумка, тот же размер и ракурс, что исходный.
+Сохранить тень и отражение. Остальные элементы кадра не менять.</div>
+
+<div class="card alert">
+<strong>Первое правило безопасности: файл уходит с компьютера только после кнопки Generate.</strong> Открытие, рисование, выделение, фильтры, сохранение и экспорт — всё локально. В Replicate уходит только выделенный фрагмент. Для макетов под NDA это разница между «риск» и «порядок»: обезличивайте плейсхолдерами до загрузки.
+</div>
+</section>
+
+<section>
+<h2>6. Три операции, которые закрывали долг по программе</h2>
+<div class="tblwrap"><table>
+<thead><tr><th>Задача</th><th>Как в Scumble</th><th>На что смотреть</th></tr></thead>
+<tbody>
+<tr class="pick"><td><strong>Правка маской</strong></td><td>Выделить → описать → Generate → Match. Ответ ложится слоем</td><td>Растушёвка выделения 4–16 пикселей убирает шов. Не понравилось — удалили слой, не переделывая исходник</td></tr>
+<tr class="pick"><td><strong>Расширение кадра</strong></td><td>Extend canvas → выделить новую пустую часть → промпт → Generate</td><td>Описывайте материал, свет и ракурс продолжения. «Продолжи фон» не работает — граница видна</td></tr>
+<tr class="pick"><td><strong>Увеличение разрешения</strong></td><td>Кнопка Upscale → выбрать: только выделение или вся картинка → множитель</td><td>Выделение даёт резкий кусок слоем — его можно замаскировать. Вся картинка становится новой основой, и размер документа меняется</td></tr>
+</tbody></table></div>
+
+<div class="card">
+<strong>Про увеличение — честно.</strong> Upscale не придумывает детали, которых не было. Мелкий текст останется мыльным. Если исходник 1200 × 800, то для печати A4 его всё равно нужно перерисовывать заново.
+</div>
+
+<h3>Бонус, которого нет в браузерных сервисах</h3>
+<p class="lead">В Scumble встроены инструменты ретуши, работающие вообще без ключа и без интернета:</p>
+<div class="tblwrap"><table>
+<thead><tr><th>Инструмент</th><th>Что делает</th><th>Условие</th></tr></thead>
+<tbody>
+<tr><td><strong>Remove</strong> (Shift+J)</td><td>Закрасить объект — программа дорисует фон вокруг</td><td>Модель LaMa скачивается один раз (198 МБ) и дальше работает офлайн, на процессоре. Ключ не нужен</td></tr>
+<tr><td><strong>Patch</strong></td><td>Перенести текстуру из одного места в другое</td><td>Работает как «восстанавливающая кисть» для целой области</td></tr>
+<tr><td><strong>Content-aware move</strong></td><td>Переместить объект, фон заполнится сам</td><td>Нужна та же модель LaMa</td></tr>
+</tbody></table></div>
+</section>
+
+<section>
+<h2>7. Модели в Scumble и их цены на Replicate</h2>
+<p class="lead">Цены указаны на 26 октября 2026 года, зафиксированы на страницах самих моделей и меняются.</p>
+<div class="tblwrap"><table>
+<thead><tr><th>Модель</th><th>За что считает</th><th>Цена</th></tr></thead>
+<tbody>
+<tr class="pick"><td class="mname">Ideogram 4.5</td><td>за картинку, качество low / medium / high</td><td class="price">$0,03 / $0,06 / $0,10</td></tr>
+<tr><td class="mname">Ideogram 4.5 Precise Edit</td><td>то же, но правка по маске</td><td class="price">$0,03 / $0,06 / $0,22</td></tr>
+<tr class="pick"><td class="mname">Nano Banana 2</td><td>за картинку, размер 1K / 2K / 4K</td><td class="price">$0,067 / $0,101 / $0,151</td></tr>
+<tr><td class="mname">Nano Banana 2.1</td><td>то же, дешевле</td><td class="price">$0,0336 / $0,0504 / $0,1134</td></tr>
+<tr class="pick"><td class="mname">Seedream 5 lite</td><td>за картинку</td><td class="price">$0,035</td></tr>
+<tr><td class="mname">Seedream 5 pro</td><td>за картинку, 1K / 2K</td><td class="price">$0,045 / $0,09</td></tr>
+<tr class="pick"><td class="mname">FLUX.2 pro</td><td>за запуск плюс за каждый мегапиксель картинки</td><td class="price">$0,015 + $0,015</td></tr>
+<tr><td class="mname">FLUX.2 max</td><td>за запуск, качество выше</td><td class="price">$0,04</td></tr>
+</tbody></table></div>
+
+<div class="card good">
+<strong>Ориентир по бюджету.</strong> Сто правок по маске на модели среднего качества — примерно $6. Для клиентских задач агентства это меньше, чем один поход за кофе. Ошибки и неудачные попытки тоже стоят денег, поэтому держите запас: $10–20 на месяц активной работы.
+</div>
+
+<div class="card alert">
+<strong>Два предупреждения, которые важнее цифр.</strong> Первое: рецепт Ideogram 4.5 в Scumble написан автором по документации трёх провайдеров, но против живых запусков не проверялся — если что-то поведёт себя не так, это не ваша ошибка. Второе: Ideogram 4.5 силён именно в надписях, это его главный козырь для макетов с текстом.
+</div>
+
+<h3>Права на результат</h3>
+<p class="lead">По условиям Replicate права на созданный результат, включая коммерческое использование, передаются вам. Оговорка одна: у отдельных моделей могут быть собственные ограничения — их нужно смотреть в карточке конкретной модели.</p>
+</section>
+
+<section>
+<h2>8. Разбор типовых сбоев</h2>
+<div class="tblwrap"><table>
+<thead><tr><th>Что произошло</th><th>Почему</th><th>Что делать</th></tr></thead>
+<tbody>
+<tr><td>В списке рецептов всё серое, ничего не выбрать</td><td>Ключ не сохранён или сохранён с ошибкой</td><td>Ctrl+, → API providers → проверить строку Replicate → вставить токен заново → Save. Перезапуск не нужен</td></tr>
+<tr><td>Кнопка Generate не запускается</td><td>На балансе ноль</td><td>Account → Billing → Add credit. При нуле новые запуски не стартуют</td></tr>
+<tr><td>«Ошибка оплаты» / карта отклонена</td><td>Платёжный шлюз не принимает эту карту</td><td>Проверить список поддерживаемых сервисов у эмитента карты до пополнения. Пробовать сначала $5</td></tr>
+<tr><td>Правка выглядит как наклейка</td><td>Тон и контраст вставки не совпадают с окружением</td><td>Поднять ползунок Match до 100 % и уменьшать до нужного. Это первое, что нужно делать, а не перегенерировать</td></tr>
+<tr><td>Виден шов по границе выделения</td><td>Выделение без растушёвки</td><td>Растушёвка 4–16 пикселей в панели Selection. Дёшево, а результат меняет сразу</td></tr>
+<tr><td>Текст на макете поплыл</td><td>Модель перерисовывает надписи рядом с правкой</td><td>Вынести текст отдельным слоем: картинку генерировать без надписей, текст добавить в редакторе. С Scumble это просто — слои остаются редактируемыми</td></tr>
+<tr><td>Генерация идёт очень долго</td><td>Модель нагружена, либо стоит в очереди</td><td>У Scumble есть кнопка Cancel рядом с таймером. Сменить модель на более быструю</td></tr>
+<tr><td>Вместо картинки пришёл пустой файл</td><td>Файл не скачался</td><td>Scumble хранит всё в %APPDATA%/Scumble/files/. Проверить папку, повторить запуск</td></tr>
+<tr><td>Правка не влезла в макет</td><td>Файл открыт как есть, без слоёв</td><td>При сохранении выбирать формат PSD, а не PNG. В PNG попадает только плоская картинка</td></tr>
+</tbody></table></div>
+</section>
+
+<section>
+<h2>9. Чек-лист готовности</h2>
+<div class="card">
+<ul class="check">
+<li>Scumble установлен и запускается</li>
+<li>Аккаунт на Replicate создан, токен получен и сохранён</li>
+<li>В Billing добавлен способ оплаты, на балансе есть кредит</li>
+<li>Токен вставлен в Scumble, рецепт Replicate перестал быть серым</li>
+<li>Один тестовый запуск пройден — деньги списались, картинка вернулась</li>
+<li>Пробная правка сделана и сохранена отдельным слоем</li>
+<li>Оригинал не перезаписан</li>
+<li>Токен не засветился в переписке и не попал в скриншот</li>
+</ul>
+</div>
+
+<div class="card alert">
+<strong>Что сделать в первую неделю.</strong> Заведите на Scumble отдельную папку под рабочие макеты и не смешивайте её с личным. Проверьте на одном клиентском задании полный цикл: правка маской → Match → экспорт в PSD → открытие в Photoshop. Когда цикл пройдён один раз, дальше он занимает минуты.
+</div>
+</section>
+
+</div></main>
+<footer><div class="wrap">
+Раздаточный материал №6 к занятию 3 «Редактирование + анимация + безопасность + финальный конвейер» · 26 октября 2026<br>
+Источники: <a href="https://github.com/DenRakEiw/scumble" target="_blank">github.com/DenRakEiw/scumble</a> (релизы 0.1.51 от 24 октября 2026, руководство и <code>docs/RECIPES.md</code>) · <a href="https://replicate.com/docs/topics/billing/prepaid-credit" target="_blank">replicate.com/docs — биллинг</a> · <a href="https://replicate.com/docs/topics/security/api-tokens" target="_blank">replicate.com/docs — токены</a> · <a href="https://replicate.com/terms" target="_blank">replicate.com/terms</a> — права на результат · цены — со страниц моделей Replicate, проверено 26 октября 2026<br>
+Правка, расширение кадра и увеличение разрешения — в <a href="https://mrvolkomorov.github.io/irina-editing-guide/" target="_blank">раздатке №1</a>
+</div></footer>
+</body></html>
